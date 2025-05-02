@@ -1,0 +1,7 @@
+default: ex_02d_rx_sniff
+build_dir: D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff/build_8
+domains:
+  - name: ex_02d_rx_sniff
+    build_dir: D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff/build_8/ex_02d_rx_sniff
+flash_order:
+  - ex_02d_rx_sniff

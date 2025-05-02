@@ -5,3 +5,6 @@
 arduino_serial: &uart1 {
 	status = "disabled";
 };
+&spi0 {
+	status = "okay";
+};

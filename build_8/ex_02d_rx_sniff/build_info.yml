@@ -1,0 +1,53 @@
+cmake:
+  application:
+    configuration-dir: D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff
+    source-dir: D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff
+  board:
+    name: nrf52840dk
+    qualifiers: nrf52840
+    revision: 
+  devicetree:
+    bindings-dirs:
+     - D:/Downloads/dwm3000-master/dts/bindings
+     - D:/Downloads/nordictest/sdk/nrf/dts/bindings
+     - D:/Downloads/nordictest/sdk/zephyr/dts/bindings
+    files:
+     - D:/Downloads/nordictest/sdk/zephyr/boards/nordic/nrf52840dk/nrf52840dk_nrf52840.dts
+     - D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff/../../boards/shields/qorvo_dwm3000/qorvo_dwm3000.overlay
+     - D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff/nrf52840dk_nrf52840.overlay
+    include-dirs:
+     - D:/Downloads/dwm3000-master/dts
+     - D:/Downloads/nordictest/sdk/nrf/include
+     - D:/Downloads/nordictest/sdk/nrf/dts
+     - D:/Downloads/nordictest/sdk/zephyr/include
+     - D:/Downloads/nordictest/sdk/zephyr/include/zephyr
+     - D:/Downloads/nordictest/sdk/zephyr/dts/common
+     - D:/Downloads/nordictest/sdk/zephyr/dts/x86
+     - D:/Downloads/nordictest/sdk/zephyr/dts/xtensa
+     - D:/Downloads/nordictest/sdk/zephyr/dts/sparc
+     - D:/Downloads/nordictest/sdk/zephyr/dts/riscv
+     - D:/Downloads/nordictest/sdk/zephyr/dts/posix
+     - D:/Downloads/nordictest/sdk/zephyr/dts/nios2
+     - D:/Downloads/nordictest/sdk/zephyr/dts/arm64
+     - D:/Downloads/nordictest/sdk/zephyr/dts/arm
+     - D:/Downloads/nordictest/sdk/zephyr/dts/arc
+     - D:/Downloads/nordictest/sdk/zephyr/dts
+    user-files:
+     - D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff/nrf52840dk_nrf52840.overlay
+  kconfig:
+    files:
+     - D:/Downloads/nordictest/sdk/zephyr/boards/nordic/nrf52840dk/nrf52840dk_nrf52840_defconfig
+     - D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff/prj.conf
+     - D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff/build_8/ex_02d_rx_sniff/zephyr/.config.sysbuild
+    user-files:
+     - D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff/prj.conf
+  toolchain:
+    name: zephyr
+    path: C:/ncs/toolchains/b620d30767/opt/zephyr-sdk
+  vendor-specific:
+    nordic:
+      svdfile: D:/Downloads/nordictest/sdk/modules/hal/nordic/nrfx/mdk/nrf52840.svd
+  zephyr:
+    version: 3.7.99
+    zephyr-base: D:/Downloads/nordictest/sdk/zephyr
+version: 0.1.0

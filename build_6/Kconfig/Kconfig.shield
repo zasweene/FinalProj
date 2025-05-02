@@ -1,0 +1,2 @@
+osource "D:/Downloads/nordictest/blinky_pwm/boards/shields/*/Kconfig.shield"
+osource "D:/Downloads/nordictest/sdk/nrf/boards/shields/*/Kconfig.shield"

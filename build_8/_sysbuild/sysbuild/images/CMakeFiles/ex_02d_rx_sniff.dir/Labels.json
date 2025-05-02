@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff/build_8/_sysbuild/sysbuild/images/CMakeFiles/ex_02d_rx_sniff"
+		},
+		{
+			"file" : "D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff/build_8/_sysbuild/sysbuild/images/CMakeFiles/ex_02d_rx_sniff.rule"
+		},
+		{
+			"file" : "D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff/build_8/_sysbuild/sysbuild/images/CMakeFiles/ex_02d_rx_sniff-complete.rule"
+		},
+		{
+			"file" : "D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff/build_8/_sysbuild/sysbuild/images/ex_02d_rx_sniff-prefix/src/ex_02d_rx_sniff-stamp/ex_02d_rx_sniff-build.rule"
+		},
+		{
+			"file" : "D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff/build_8/_sysbuild/sysbuild/images/ex_02d_rx_sniff-prefix/src/ex_02d_rx_sniff-stamp/ex_02d_rx_sniff-configure.rule"
+		},
+		{
+			"file" : "D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff/build_8/_sysbuild/sysbuild/images/ex_02d_rx_sniff-prefix/src/ex_02d_rx_sniff-stamp/ex_02d_rx_sniff-download.rule"
+		},
+		{
+			"file" : "D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff/build_8/_sysbuild/sysbuild/images/ex_02d_rx_sniff-prefix/src/ex_02d_rx_sniff-stamp/ex_02d_rx_sniff-install.rule"
+		},
+		{
+			"file" : "D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff/build_8/_sysbuild/sysbuild/images/ex_02d_rx_sniff-prefix/src/ex_02d_rx_sniff-stamp/ex_02d_rx_sniff-mkdir.rule"
+		},
+		{
+			"file" : "D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff/build_8/_sysbuild/sysbuild/images/ex_02d_rx_sniff-prefix/src/ex_02d_rx_sniff-stamp/ex_02d_rx_sniff-patch.rule"
+		},
+		{
+			"file" : "D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff/build_8/_sysbuild/sysbuild/images/ex_02d_rx_sniff-prefix/src/ex_02d_rx_sniff-stamp/ex_02d_rx_sniff-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"ex_02d_rx_sniff"
+		],
+		"name" : "ex_02d_rx_sniff"
+	}
+}

@@ -1,0 +1,2 @@
+# Load Zephyr board Kconfig descriptions.
+osource "D:/Downloads/nordictest/sdk/zephyr/boards/nordic/nrf52840dk/Kconfig"

@@ -126,7 +126,7 @@ void set_spi_speed_fast(void)
 {
     spi_cfg = &spi_cfgs[1];
     spi_cfg->operation = SPI_WORD_SET(8);  // SPI mode(0,0)
-    spi_cfg->frequency = 8000000;
+    spi_cfg->frequency = 8000000; // originally 8000000
 
     memset(&tx_buf[0], 0, 255);
     memset(&rx_buf[0], 0, 255);

@@ -1,0 +1,2 @@
+"nrf":"D:/Downloads/nordictest/sdk/nrf":"D:/Downloads/nordictest/sdk/nrf/sysbuild"
+"mcuboot":"D:/Downloads/nordictest/sdk/bootloader/mcuboot":"D:/Downloads/nordictest/sdk/bootloader/mcuboot/boot/zephyr/sysbuild"

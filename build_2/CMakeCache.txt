@@ -21,7 +21,7 @@ APPLICATION_BINARY_DIR:PATH=D:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff
 APPLICATION_SOURCE_DIR:PATH=D:/Downloads/nordictest/sdk/zephyr/share/sysbuild/template
 
 //No help, variable specified on the command line.
-APP_DIR:PATH=d:/Downloads/dwm3000-master/examples/ex_02d_rx_sniff
+APP_DIR:PATH=d:/Downloads/nordictest/sdk/zephyr/share/sysbuild/template
 
 //Selected board
 BOARD:STRING=nrf21540dk/nrf52840
@@ -45,7 +45,7 @@ CACHED_SHIELD:STRING=
 CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON
 
 //Install path prefix, prepended onto install directories.
-CMAKE_INSTALL_PREFIX:PATH=C:/Program Files/sysbuild_toplevel
+CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/sysbuild_toplevel
 
 //Program used to build from build.ninja files.
 CMAKE_MAKE_PROGRAM:FILEPATH=C:/ncs/toolchains/b620d30767/opt/bin/ninja.exe
