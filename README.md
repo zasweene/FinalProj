@@ -1,4 +1,4 @@
-# RX Sniff-Based Firmware Flashing
+# Final Project
 
 This solution is built around the 'rx_sniff.c' file. All configurations and dependencies are set up for the compilation of 'rx_sniff.c'.
 
