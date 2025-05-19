@@ -1,6 +1,6 @@
 # Final Project
 
-This solution is built around the 'rx_sniff.c' file. All configurations and dependencies are set up for the compilation of 'rx_sniff.c'.
+This solution is built around the 'rx_sniff.c' file. All of the file dependencies are set up for the compilation of 'rx_sniff.c'.
 
 ## Flashing New Programs
 
