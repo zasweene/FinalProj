@@ -1,23 +1,3 @@
-/*! ----------------------------------------------------------------------------
- * @file    rx_send_resp.c
- * @brief   RX then send a response example code
- *
- * This is a simple code example that turns on the DW IC receiver to
- * receive a frame, (expecting the frame as sent by the companion
- * simple example "TX then wait for response example code").
- * When a frame is received and validated as the expected frame a
- * response message is sent, after which the code returns to await
- * reception of another frame.
- *
- * @attention
- *
- * Copyright 2015-2020 (c) Decawave Ltd, Dublin, Ireland.
- * Copyright 2021 (c) Callender-Consulting, LLC  (port to Zephyr)
- *
- * All rights reserved.
- *
- * @author Decawave
- */
 #include <deca_device_api.h>
 #include <deca_regs.h>
 #include <deca_spi.h>
@@ -34,7 +14,6 @@
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(rx_send_resp);
 
-/* Example application name */
 #define APP_NAME "RX SENDRESP v1.0"
 
 /* Default communication configuration. We use default non-STS DW mode. */
@@ -74,32 +53,23 @@ static dwt_config_t config = {
  * - byte 16: activity code (0x00 to indicate activity is finished).
  * - byte 17/18: new tag blink rate.
  * - byte 19/20: frame check-sum, automatically set by DW IC.  */
- #define MAX_PAYLOAD_LEN 66
 
- static uint8_t tx_msg[MAX_PAYLOAD_LEN + 21];
+/* Payload is 66 bytes */
+#define MAX_PAYLOAD_LEN 66
 
+/* tx msg is the payload length plus the header length of 21 bytes. */
+static uint8_t tx_msg[MAX_PAYLOAD_LEN + 21];
 
-
+/* Chunk of data that it will send*/
 uint8_t user_input[MAX_PAYLOAD_LEN];
 
-
-void get_user_input(uint8_t *buffer, int max_len) {
-    int i = 0;
-    char c;
-    while (i < max_len - 1) {
-        c = SEGGER_RTT_WaitKey();  // Waits for key
-        if (c == '\r' || c == '\n') {
-            break;
-        }
-        buffer[i++] = c;
-        SEGGER_RTT_PutChar(0, c); // Echo back
-    }
-    buffer[i] = '\0'; // Null terminate
-}
-
+/* function to grab next sequence of bytes from memory. */
 void get_chunk(int index, uint8_t* chunk) {
     int start_index = (index - 1) * MAX_PAYLOAD_LEN;
+
+    /* This function grabs bytes from the image stored in the deca_spi.c file. */
     int bound = sizeArray();
+
     if(index == 0){
         for (int i = 0; i < MAX_PAYLOAD_LEN; i++) {
             chunk[i] = 0xFF;
@@ -107,19 +77,13 @@ void get_chunk(int index, uint8_t* chunk) {
         }
     }
     if(index > 0){
-        
-        // Check if the chunk index is within the bounds of the hex array
-        
+        // Check if the chunk index is within the bounds of the hex array   
         if (start_index < bound) {
             for (int i = 0; i < MAX_PAYLOAD_LEN; i++) {
                 if (start_index + i < bound) {
                     chunk[i] = hexArray(start_index + i);
-                    //chunk[i] = (0x01 + i)%2;
-                    
-                    //sprintf(len1, "%d",chunk[i]);
-                    //chunk[i] = 0x01; // Fill remaining bytes with 0 if out of bounds
                 } else {
-                    chunk[i] = 0xAA; // Fill remaining bytes with 0 if out of bounds
+                    chunk[i] = 0xAA; // Fill remaining bytes with AA if out of bounds
                 }
             }
         } else {
@@ -129,7 +93,6 @@ void get_chunk(int index, uint8_t* chunk) {
                 } 
             }
         }
-        
     }
     
 }
@@ -141,21 +104,18 @@ void get_chunk(int index, uint8_t* chunk) {
 /* Inter-frame delay period, in milliseconds. */
 #define TX_DELAY_MS 1000
 
-/* Buffer to store received frame. See NOTE 1 below. */
-static uint8_t rx_buffer[32]; // Changed from FRAME_LEN_MAX
+/* Buffer to store received frame. */
+static uint8_t rx_buffer[32];
 
 /* Index to access to source address of the blink frame in the rx_buffer array. */
 #define BLINK_FRAME_SRC_IDX 2
 
 /* Values for the PG_DELAY and TX_POWER registers reflect the bandwidth and
  * power of the spectrum at the current temperature.
- * These values can be calibrated prior to taking reference measurements.
- * See NOTE 2 below. */
+ * These values can be calibrated prior to taking reference measurements. */
 extern dwt_txconfig_t txconfig_options;
 
-/**
- * Application entry point.
- */
+
 int app_main(void)
 {
     /* Hold copy of status register state here for reference so that
@@ -185,19 +145,19 @@ int app_main(void)
 
     if (dwt_initialise(DWT_DW_INIT) == DWT_ERROR) {
         LOG_ERR("INIT FAILED");
-        while (1) { /* spin */ };
+        while (1) {};
     }
 
     /* Enabling LEDs here for debug so that for each TX the D1 LED will flash
      * on DW3000 red eval-shield boards. */
     dwt_setleds(DWT_LEDS_ENABLE | DWT_LEDS_INIT_BLINK) ;
 
-    /* Configure DW IC. See NOTE 8 below. */
+    /* Configure DW IC. */
     /* If the dwt_configure returns DWT_ERROR either the PLL or RX calibration
      * has failed the host should reset the device */
     if (dwt_configure(&config)) {
         LOG_INF("CONFIG FAILED");
-        while (1) { /* spin */ };
+        while (1) {};
     }
 
     /* Configure the TX spectrum parameters (power, PG delay and PG count) */
@@ -206,16 +166,15 @@ int app_main(void)
     /* Loop forever sending and receiving frames periodically. */
     while (1) {
 
-        /* Activate reception immediately. See NOTE 4 below. */
+        /* Activate reception immediately. */
         dwt_rxenable(DWT_START_RX_IMMEDIATE);
 
         /* Poll until a frame is properly received or an error occurs.
-         * See NOTE 5 below.
          * STATUS register is 5 bytes long but, as the events we are looking
          * at are in the lower bytes of the register, we can use this simplest
          * API function to access it. */
         while (!((status_reg = dwt_read32bitreg(SYS_STATUS_ID)) & (SYS_STATUS_RXFCG_BIT_MASK | SYS_STATUS_ALL_RX_ERR)))
-        { /* spin */ };
+        {};
 
         if (status_reg & SYS_STATUS_RXFCG_BIT_MASK)
         {
@@ -224,8 +183,6 @@ int app_main(void)
             if (frame_len <= 1023) { // Changed from FRAME_LEN_MAX
                 dwt_readrxdata(rx_buffer, frame_len, 0);
             }
-
-            /* TESTING BREAKPOINT LOCATION #1 */
 
             /* Clear good RX frame event in the DW IC status register. */
             dwt_write32bitreg(SYS_STATUS_ID, SYS_STATUS_RXFCG_BIT_MASK);
@@ -256,20 +213,17 @@ int app_main(void)
                 
                 tx_msg[DATA_FRAME_SN_IDX] = rx_buffer[1];
 
-                //get_user_input(user_input, MAX_PAYLOAD_LEN);
+                /* Grab next byte chunk from memory and append the header to form a full frame. */
                 get_chunk(tx_msg[DATA_FRAME_SN_IDX] - 5, user_input);
-                // Append payload
                 int input_len = sizeof(user_input);
                 memcpy(&tx_msg[sizeof(header)], user_input, input_len);
-            
                 
                 /* Copy source address of blink in response destination address. */
                 for (int i = 0; i < 8; i++) {
                     tx_msg[DATA_FRAME_DEST_IDX + i] = rx_buffer[BLINK_FRAME_SRC_IDX + i];
                 }
 
-                /* Write response frame data to DW IC and prepare transmission.
-                 * See NOTE 6 below.*/
+                /* Write response frame data to DW IC and prepare transmission. */
                 dwt_writetxdata(sizeof(tx_msg), tx_msg, 0); /* Zero offset in TX buffer. */
                 dwt_writetxfctrl(sizeof(tx_msg), 0, 0); /* Zero offset in TX buffer, no ranging. */
 
@@ -278,7 +232,7 @@ int app_main(void)
 
                 /* Poll DW IC untilTX frame sent event set. */
                 while (!(dwt_read32bitreg(SYS_STATUS_ID) & SYS_STATUS_TXFRS_BIT_MASK))
-                { /* spin */ };
+                {};
 
                 /* Clear TX frame sent event. */
                 dwt_write32bitreg(SYS_STATUS_ID, SYS_STATUS_TXFRS_BIT_MASK);
@@ -287,7 +241,6 @@ int app_main(void)
                 sprintf(len2, "resp len %d", sizeof(tx_msg));
                 LOG_HEXDUMP_INF((uint8_t*)&tx_msg, sizeof(tx_msg), (uint8_t*) &len2);
 #endif
-                /* Increment the data frame sequence number (modulo 256). */
 
             }
         }
@@ -297,25 +250,3 @@ int app_main(void)
         }
     }
 }
-
-/*****************************************************************************************************************************************************
- * NOTES:
- *
- * 1. In this example, maximum frame length is set to 127 bytes which is 802.15.4 UWB standard maximum frame length. DW IC supports an extended frame
- * length (up to 1023 bytes long) mode which is not used in this example.
- * 2. In this example, the DW IC is put into IDLE state after calling dwt_initialise(). This means that a fast SPI rate of up to 20 MHz can be used
- * thereafter.
- * 3. In a real application, for optimum performance within regulatory limits, it may be necessary to set TX pulse bandwidth and TX power, (using
- * the dwt_configuretxrf API call) to per device calibrated values saved in the target system or the DW IC OTP memory.
- * 4. Manual reception activation is performed here but DW IC offers several features that can be used to handle more complex scenarios or to
- * optimise system's overall performance (e.g. timeout after a given time, automatic re-enabling of reception in case of errors, etc.).
- * 5. We use polled mode of operation here to keep the example as simple as possible but all status events can be used to generate interrupts. Please
- * refer to DW IC User Manual for more details on "interrupts".
- * 6. dwt_writetxdata() takes the full size of tx_msg as a parameter but only copies (size - 2) bytes as the check-sum at the end of the frame is
- * automatically appended by the DW IC. This means that our tx_msg could be two bytes shorter without losing any data (but the sizeof would not
- * work anymore then as we would still have to indicate the full length of the frame to dwt_writetxdata()).
- * 7. The user is referred to DecaRanging ARM application (distributed with EVK1000 product) for additional practical example of usage, and to the
- * DW IC API Guide for more details on the DW IC driver functions.
- * 8. Desired configuration by user may be different to the current programmed configuration. dwt_configure is called to set desired
- * configuration.
- ****************************************************************************************************************************************************/
